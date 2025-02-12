@@ -1,0 +1,8 @@
+.container__maintenance {
+  text-align: center;
+}
+
+.buttons__space {
+  display: flex;
+  justify-content: space-between;
+}
