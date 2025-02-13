@@ -19,47 +19,24 @@ export const DOCUMENT_TYPE = [
 
 export const MARKS = [
   {
-    id: 1,
+    id: 'TVS',
     name: 'TVS',
   },
   {
-    id: 2,
+    id: 'Yamaha',
     name: 'Yamaha',
   },
   {
-    id: 3,
+    id: 'Kawasaki',
     name: 'Kawasaki',
   },
   {
-    id: 4,
+    id: 'Suzuki',
     name: 'Suzuki',
   },
   {
-    id: 5,
+    id: 'Honda',
     name: 'Honda',
-  },
-];
-
-export const MODEL = [
-  {
-    id: 1,
-    name: 'YBR',
-  },
-  {
-    id: 2,
-    name: 'YZF',
-  },
-  {
-    id: 3,
-    name: 'R1',
-  },
-  {
-    id: 4,
-    name: 'R6',
-  },
-  {
-    id: 5,
-    name: 'CBR',
   },
 ];
 

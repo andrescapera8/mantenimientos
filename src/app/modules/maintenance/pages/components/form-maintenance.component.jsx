@@ -1,7 +1,9 @@
+import CloseIcon from '@mui/icons-material/Close';
 import LoadingButton from '@mui/lab/LoadingButton';
 import Box from '@mui/material/Box';
 import Divider from '@mui/material/Divider';
 import FormControl from '@mui/material/FormControl';
+import IconButton from '@mui/material/IconButton';
 import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import Modal from '@mui/material/Modal';
@@ -10,16 +12,12 @@ import TextField from '@mui/material/TextField';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
+import dayjs from 'dayjs';
+import { useEffect } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import { useHandleMaintenance } from '../../hooks/useHandleMaintenance.hook';
 import { createMaintenance } from '../../services/maintenance.service';
-import {
-  DOCUMENT_TYPE,
-  MARKS,
-  MODEL,
-  STATES,
-  YEARS,
-} from '../../utils/utility';
+import { DOCUMENT_TYPE, MARKS, STATES, YEARS } from '../../utils/utility';
 
 const style = {
   position: 'absolute',
@@ -34,30 +32,59 @@ const style = {
   overflow: 'auto',
 };
 
-export default function FormMaintenance({ open, handleClose }) {
+export default function FormMaintenance({ open, handleClose, maintenance }) {
   const { loading } = useHandleMaintenance();
 
   const {
     register,
+    reset,
     handleSubmit,
     control,
     formState: { errors },
   } = useForm();
 
+  console.log('entra......................');
+
   const onSubmit = handleSubmit(async (values) => {
-    console.log('FormMaintenance......', values);
     createMaintenance(values);
     handleClose();
   });
 
+  useEffect(() => {
+    reset({
+      fecha: maintenance.fecha ? dayjs(maintenance.fecha) : null, // Ensure correct format
+      nombres: maintenance.nombres || '',
+      tipoDocumento: maintenance.tipoDocumento || '',
+      numeroDocumento: maintenance.numeroDocumento || '',
+      telefono: maintenance.telefono || '',
+      email: maintenance.email || '',
+      marca: maintenance.marca || '',
+      modelo: maintenance.modelo || '',
+      año: maintenance.año || '',
+      numeroSerie: maintenance.numeroSerie || '',
+      descripcion: maintenance.descripcion || '',
+      estado: maintenance.estado || '',
+    });
+  }, [maintenance, reset]);
+
   return (
     <Modal
       open={open}
-      onClose={handleClose}
       aria-labelledby='modal-modal-title'
       aria-describedby='modal-modal-description'
     >
       <Box sx={style}>
+        <IconButton
+          onClick={handleClose}
+          sx={{
+            position: 'absolute',
+            top: 8,
+            right: 8,
+          }}
+        >
+          <CloseIcon />
+        </IconButton>
+
         <h2>Registro!</h2>
 
         <form onSubmit={onSubmit}>
@@ -197,7 +224,7 @@ export default function FormMaintenance({ open, handleClose }) {
                   {...field}
                   label='Modelo'
                 >
-                  {MODEL.map((item) => (
+                  {YEARS.map((item) => (
                     <MenuItem
                       key={item.id}
                       value={item.id}
@@ -259,21 +286,24 @@ export default function FormMaintenance({ open, handleClose }) {
 
           <Divider sx={{ my: 2 }}>Mantenimiento</Divider>
 
-          <div>
-            <LocalizationProvider
-              dateAdapter={AdapterDayjs}
-              sx={{ margin: '5px' }}
-            >
-              <DatePicker
-                sx={{ minWidth: '100%' }}
-                label='Basic date picker'
-                {...register('fecha', { required: 'Fecha requerida' })}
-              />
-            </LocalizationProvider>
-            {errors.fecha && (
-              <p className='text-red-500'>{errors.fecha.message}</p>
+          <Controller
+            name='fecha'
+            control={control}
+            rules={{ required: 'Fecha requerida' }}
+            render={({ field }) => (
+              <LocalizationProvider dateAdapter={AdapterDayjs}>
+                <DatePicker
+                  {...field}
+                  label='Fecha'
+                  sx={{ minWidth: '100%' }}
+                  onChange={(newValue) => field.onChange(newValue)}
+                />
+              </LocalizationProvider>
             )}
-          </div>
+          />
+          {errors.fecha && (
+            <p className='text-red-500'>{errors.fecha.message}</p>
+          )}
 
           <div>
             <TextField

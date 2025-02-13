@@ -1,4 +1,3 @@
-import Button from '@mui/material/Button';
 import { useState } from 'react';
 import Loading from '../../../shared/components/loading.component';
 import { useHandleMaintenance } from '../hooks/useHandleMaintenance.hook';
@@ -11,21 +10,29 @@ export default function MaintenanceCrud() {
   const { maintenancesAll, maintenances, loading } = useHandleMaintenance();
 
   const [open, setOpen] = useState(false);
-  const handleOpen = () => setOpen(true);
-  const handleClose = () => setOpen(false);
+  const [maintenance, setMaintenance] = useState({});
 
-  const handleButtonMaintenances = () => {
-    maintenancesAll();
+  const handleOpen = (maintenanceData) => {
+    setOpen(true);
+    setMaintenance(maintenanceData);
   };
+  const handleClose = () => setOpen(false);
 
   return (
     <section className='container__maintenance'>
       <article className='buttons__space'>
         <ButtonAction
-          handleButton={handleButtonMaintenances}
+          handleButton={maintenancesAll}
           variant='contained'
           color='primary'
-          label='Obtener mantenimeintos'
+          label='Obtener mantenimientos'
+          loading={loading}
+        />
+
+        <ButtonAction
+          handleButton={handleOpen}
+          color='primary'
+          label='Crear mantenimiento'
           loading={loading}
         />
       </article>
@@ -33,25 +40,20 @@ export default function MaintenanceCrud() {
       <br />
 
       {loading && <Loading />}
-      {!loading && maintenances.length > 0 && (
-        <p>No se encontraron más mantenimeintos...</p>
-      )}
 
       <br />
 
       <article>
-        <TableMaintenances maintenances={maintenances} />
-      </article>
-
-      <br />
-
-      <article>
-        <Button onClick={handleOpen}>Open modal</Button>
+        <TableMaintenances
+          maintenances={maintenances}
+          handleOpen={handleOpen}
+        />
       </article>
 
       <FormMaintenance
         open={open}
         handleClose={handleClose}
+        maintenance={maintenance}
       />
     </section>
   );

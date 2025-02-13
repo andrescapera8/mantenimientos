@@ -1,15 +1,16 @@
-import { useState } from "react";
-import { SnackBarUtlities } from "../../../core/utils/snackbar-manager.util";
+import { useCallback, useState } from 'react';
+import { SnackBarUtlities } from '../../../core/utils/snackbar-manager.util';
+import { ADAPTER_MAINTENANCES } from '../adapters/maintenance.adapter';
 import {
   createMaintenance,
   getAllMaintenances,
-} from "../services/maintenance.service";
+} from '../services/maintenance.service';
 
 export const useHandleMaintenance = () => {
   const [maintenances, setMaintenances] = useState([]);
   const [loading, setLoading] = useState(false);
 
-  const maintenancesAll = async () => {
+  const maintenancesAll = useCallback(async () => {
     setMaintenances([]);
 
     try {
@@ -18,17 +19,19 @@ export const useHandleMaintenance = () => {
       const { mantenimientoDTO, statusResponse } = await getAllMaintenances();
 
       if (statusResponse.status != 200) {
-        return SnackBarUtlities.error("Error al obtener mantenimientos.");
+        return SnackBarUtlities.error('Error al obtener mantenimientos.');
       }
 
-      return setMaintenances((prev) => prev.concat(mantenimientoDTO));
+      const maintenances_adapter = ADAPTER_MAINTENANCES(mantenimientoDTO);
+
+      return setMaintenances((prev) => prev.concat(maintenances_adapter));
     } catch (error) {
       SnackBarUtlities.error(error);
     } finally {
-      SnackBarUtlities.success("Consulta completada.");
+      SnackBarUtlities.success('Consulta completada.');
       setLoading(false);
     }
-  };
+  }, []);
 
   const handleMaintenance = async ({ maintenance }) => {
     setMaintenances([]);
@@ -39,14 +42,14 @@ export const useHandleMaintenance = () => {
       const { data, statusResponse } = await createMaintenance({ maintenance });
 
       if (statusResponse.status != 200) {
-        return SnackBarUtlities.error("Error al obtener mantenimientos.");
+        return SnackBarUtlities.error('Error al obtener mantenimientos.');
       }
 
       return setMaintenances((prev) => prev.concat(data));
     } catch (error) {
       SnackBarUtlities.error(error);
     } finally {
-      SnackBarUtlities.success("Consulta completada.");
+      SnackBarUtlities.success('Consulta completada.');
       setLoading(false);
     }
   };
