@@ -25,6 +25,40 @@ export const getAllMaintenances = async () => {
   // Recuperamos la señal del controlador
   const { signal } = controller;
 
+  // const data = {
+  //   statusResponse: {
+  //     status: 200,
+  //   },
+  //   mantenimientoDTO: [
+  //     {
+  //       cliente: {
+  //         id: 2,
+  //         tipoDocumento: 1,
+  //         numeroDocumento: 5971105,
+  //         nombres: 'Pedro Perez',
+  //         telefono: 30014785445,
+  //         email: 'pedro@1515gmail.com',
+  //       },
+  //       moto: {
+  //         id: 2,
+  //         marca: 'TVS',
+  //         modelo: 2014,
+  //         año: 2014,
+  //         numeroSerie: '1551220244545',
+  //       },
+  //       mantenimiento: {
+  //         id: 2,
+  //         motoId: 2,
+  //         catalogoMantenimientoId: 1,
+  //         clienteId: 2,
+  //         fecha: 41551585415,
+  //         descripcion: 'Falla de cadenilla',
+  //         estado: 1,
+  //       },
+  //     },
+  //   ],
+  // };
+
   const { data } = await axios.get(`${URI}/mantenimientos`, { signal });
 
   return data;

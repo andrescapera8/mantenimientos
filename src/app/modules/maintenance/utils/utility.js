@@ -78,7 +78,7 @@ export const STATES = [
     name: 'En proceso',
   },
   {
-    id: 2,
+    id: 3,
     name: 'Finalizado',
   },
 ];

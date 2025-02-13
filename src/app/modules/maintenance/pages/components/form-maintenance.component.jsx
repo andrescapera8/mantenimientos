@@ -124,7 +124,7 @@ export default function FormMaintenance({ open, handleClose, maintenance }) {
                 >
                   {DOCUMENT_TYPE.map((item) => (
                     <MenuItem
-                      key={item.id}
+                      key={item.id + 'DOCUMENT_TYPE'}
                       value={item.id}
                     >
                       {item.name}
@@ -200,7 +200,7 @@ export default function FormMaintenance({ open, handleClose, maintenance }) {
                 >
                   {MARKS.map((item) => (
                     <MenuItem
-                      key={item.id}
+                      key={item.id + 'MARKS'}
                       value={item.id}
                     >
                       {item.name}
@@ -230,7 +230,7 @@ export default function FormMaintenance({ open, handleClose, maintenance }) {
                 >
                   {YEARS.map((item) => (
                     <MenuItem
-                      key={item.id}
+                      key={item.id + 'MODEL'}
                       value={item.id}
                     >
                       {item.name}
@@ -260,7 +260,7 @@ export default function FormMaintenance({ open, handleClose, maintenance }) {
                 >
                   {YEARS.map((item) => (
                     <MenuItem
-                      key={item.id}
+                      key={item.id + 'YEARS'}
                       value={item.id}
                     >
                       {item.name}
@@ -345,7 +345,7 @@ export default function FormMaintenance({ open, handleClose, maintenance }) {
                 >
                   {STATES.map((item) => (
                     <MenuItem
-                      key={item.id}
+                      key={item.id + 'STATES'}
                       value={item.id}
                     >
                       {item.name}
