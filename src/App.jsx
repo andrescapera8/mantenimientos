@@ -3,6 +3,7 @@ import { Toaster } from 'sonner';
 import './App.css';
 import SignIn from './app/modules/auth/components/auth.component';
 import { AuthProvider } from './app/modules/auth/context/auth.context';
+import CatalogComponent from './app/modules/catalog/pages/catalog.component';
 import { MaintenanceProvider } from './app/modules/maintenance/context/maintenance.context';
 import MaintenanceCrud from './app/modules/maintenance/pages/maintenances.component';
 import NavBar from './app/shared/components/navbar.component';
@@ -40,7 +41,7 @@ function App() {
                 <Route element={<ProtectedRoutes />}>
                   <Route
                     path='/catalogo'
-                    element={<h1>Catalogo</h1>}
+                    element={<CatalogComponent />}
                   />
                 </Route>
               </Routes>
