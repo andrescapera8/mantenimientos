@@ -8,7 +8,7 @@ export const getAllCatalogs = async () => {
   const { signal } = controller;
 
   const { data } = await axios.get(
-    `${URI}/mantenimiento`,
+    `${URI}/catalogo-repuestos`,
     { headers: { 'Content-Type': 'application/json' } },
     {
       signal,
