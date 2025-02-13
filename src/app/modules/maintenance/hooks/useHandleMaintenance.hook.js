@@ -1,9 +1,9 @@
-import { useState } from 'react';
-import { SnackBarUtlities } from '../../../core/utils/snackbar-manager.util';
+import { useState } from "react";
+import { SnackBarUtlities } from "../../../core/utils/snackbar-manager.util";
 import {
   createMaintenance,
   getAllMaintenances,
-} from '../services/maintenance.service';
+} from "../services/maintenance.service";
 
 export const useHandleMaintenance = () => {
   const [maintenances, setMaintenances] = useState([]);
@@ -15,17 +15,17 @@ export const useHandleMaintenance = () => {
     try {
       setLoading(true);
 
-      const { data, status } = await getAllMaintenances();
+      const { mantenimientoDTO, statusResponse } = await getAllMaintenances();
 
-      if (status != 200) {
-        return SnackBarUtlities.error('Error al obtener mantenimientos.');
+      if (statusResponse.status != 200) {
+        return SnackBarUtlities.error("Error al obtener mantenimientos.");
       }
 
-      return setMaintenances((prev) => prev.concat(data));
+      return setMaintenances((prev) => prev.concat(mantenimientoDTO));
     } catch (error) {
       SnackBarUtlities.error(error);
     } finally {
-      SnackBarUtlities.success('Consulta completada.');
+      SnackBarUtlities.success("Consulta completada.");
       setLoading(false);
     }
   };
@@ -36,17 +36,17 @@ export const useHandleMaintenance = () => {
     try {
       setLoading(true);
 
-      const { data, status } = await createMaintenance({ maintenance });
+      const { data, statusResponse } = await createMaintenance({ maintenance });
 
-      if (status != 200) {
-        return SnackBarUtlities.error('Error al obtener mantenimientos.');
+      if (statusResponse.status != 200) {
+        return SnackBarUtlities.error("Error al obtener mantenimientos.");
       }
 
       return setMaintenances((prev) => prev.concat(data));
     } catch (error) {
       SnackBarUtlities.error(error);
     } finally {
-      SnackBarUtlities.success('Consulta completada.');
+      SnackBarUtlities.success("Consulta completada.");
       setLoading(false);
     }
   };

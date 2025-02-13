@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const URI = 'https://localhost:8080/api/maintenance';
+const URI = 'http://localhost:8084/mantenimiento/v1';
 
 export const getMaintenance = async (maintenance) => {
   // Creamos el controlador para abortar la petición
@@ -8,7 +8,7 @@ export const getMaintenance = async (maintenance) => {
   // Recuperamos la señal del controlador
   const { signal } = controller;
 
-  const { data } = await axios.post(`${URI}/${maintenance}`, { signal });
+  const { data } = await axios.get(`${URI}/${maintenance}`, { signal });
 
   return data;
 };
@@ -19,7 +19,7 @@ export const getAllMaintenances = async () => {
   // Recuperamos la señal del controlador
   const { signal } = controller;
 
-  const { data } = await axios.post(`${URI}`, { signal });
+  const { data } = await axios.get(`${URI}/mantenimientos`, { signal });
 
   return data;
 };
@@ -52,7 +52,7 @@ export const deleteMaintenance = async (maintenance) => {
   // Recuperamos la señal del controlador
   const { signal } = controller;
 
-  const { data } = await axios.delete(URI, maintenance, { signal });
+  const { data } = await axios.delete(`${URI}/${maintenance}`, { signal });
 
   return data;
 };

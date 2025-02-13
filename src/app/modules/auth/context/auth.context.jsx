@@ -19,8 +19,8 @@ export const AuthProvider = ({ children }) => {
     setLoading(true);
 
     try {
-      const { status, message } = await authentication({ email, password });
-      if (status != 200) return SnackBarUtlities.error(message);
+      const { statusResponse, message } = await authentication({ email, password });
+      if (statusResponse != 200) return SnackBarUtlities.error(message);
 
       setIsAuthenticated(true);
       localStorage.setItem('token', '¡Bienvenido!');
