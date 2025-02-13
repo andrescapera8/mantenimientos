@@ -13,10 +13,9 @@ import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import dayjs from 'dayjs';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import { useHandleMaintenance } from '../../hooks/useHandleMaintenance.hook';
-import { createMaintenance } from '../../services/maintenance.service';
 import { DOCUMENT_TYPE, MARKS, STATES, YEARS } from '../../utils/utility';
 
 const style = {
@@ -33,7 +32,9 @@ const style = {
 };
 
 export default function FormMaintenance({ open, handleClose, maintenance }) {
-  const { loading } = useHandleMaintenance();
+  const { loading, handleMaintenance } = useHandleMaintenance();
+
+  const [action, setAction] = useState(1); // Crear = 1, Editar = 2
 
   const {
     register,
@@ -43,16 +44,19 @@ export default function FormMaintenance({ open, handleClose, maintenance }) {
     formState: { errors },
   } = useForm();
 
-  console.log('entra......................');
-
   const onSubmit = handleSubmit(async (values) => {
-    createMaintenance(values);
+    const mergeValues = action === 1 ? values : { ...maintenance, ...values };
+
+    handleMaintenance({ values: mergeValues, action });
     handleClose();
   });
 
   useEffect(() => {
+    if (!maintenance.idMoto) setAction(1);
+    else setAction(2);
+
     reset({
-      fecha: maintenance.fecha ? dayjs(maintenance.fecha) : null, // Ensure correct format
+      fecha: maintenance.fecha ? dayjs(maintenance.fecha) : null,
       nombres: maintenance.nombres || '',
       tipoDocumento: maintenance.tipoDocumento || '',
       numeroDocumento: maintenance.numeroDocumento || '',
@@ -291,11 +295,15 @@ export default function FormMaintenance({ open, handleClose, maintenance }) {
             control={control}
             rules={{ required: 'Fecha requerida' }}
             render={({ field }) => (
-              <LocalizationProvider dateAdapter={AdapterDayjs}>
+              <LocalizationProvider
+                dateAdapter={AdapterDayjs}
+                adapterLocale='en-gb'
+              >
                 <DatePicker
                   {...field}
                   label='Fecha'
                   sx={{ minWidth: '100%' }}
+                  format='DD/MM/YYYY'
                   onChange={(newValue) => field.onChange(newValue)}
                 />
               </LocalizationProvider>

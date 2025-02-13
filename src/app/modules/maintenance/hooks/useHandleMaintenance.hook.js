@@ -1,9 +1,14 @@
 import { useCallback, useState } from 'react';
 import { SnackBarUtlities } from '../../../core/utils/snackbar-manager.util';
-import { ADAPTER_MAINTENANCES } from '../adapters/maintenance.adapter';
+import {
+  ADAPTER_MAINTENANCES,
+  MAINTENACES_ADAPTER,
+} from '../adapters/maintenance.adapter';
 import {
   createMaintenance,
+  deleteMaintenance,
   getAllMaintenances,
+  updateMaintenance,
 } from '../services/maintenance.service';
 
 export const useHandleMaintenance = () => {
@@ -33,13 +38,37 @@ export const useHandleMaintenance = () => {
     }
   }, []);
 
-  const handleMaintenance = async ({ maintenance }) => {
-    setMaintenances([]);
+  const handleMaintenance = async ({ values, action }) => {
+    const dataMaintenance = MAINTENACES_ADAPTER(values);
 
     try {
       setLoading(true);
 
-      const { data, statusResponse } = await createMaintenance({ maintenance });
+      const maintenanceAction =
+        action === 2 ? createMaintenance : updateMaintenance;
+
+      const { statusResponse } = await maintenanceAction({
+        dataMaintenance,
+      });
+
+      if (statusResponse.status !== 200) {
+        return SnackBarUtlities.error('Error al crear mantenimiento.');
+      }
+
+      maintenancesAll();
+    } catch (error) {
+      SnackBarUtlities.error(error);
+    } finally {
+      SnackBarUtlities.success('Consulta completada.');
+      setLoading(false);
+    }
+  };
+
+  const removeMaintenance = async (maintenance) => {
+    try {
+      setLoading(true);
+
+      const { data, statusResponse } = await deleteMaintenance({ maintenance });
 
       if (statusResponse.status != 200) {
         return SnackBarUtlities.error('Error al obtener mantenimientos.');
@@ -54,5 +83,11 @@ export const useHandleMaintenance = () => {
     }
   };
 
-  return { handleMaintenance, maintenances, loading, maintenancesAll };
+  return {
+    handleMaintenance,
+    maintenances,
+    loading,
+    maintenancesAll,
+    removeMaintenance,
+  };
 };

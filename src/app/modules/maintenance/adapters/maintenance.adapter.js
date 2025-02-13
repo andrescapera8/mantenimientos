@@ -18,3 +18,31 @@ export const ADAPTER_MAINTENANCES = (maintenances) => {
     estado: item.mantenimiento.estado,
   }));
 };
+
+export const MAINTENACES_ADAPTER = (maintenance) => {
+  return {
+    cliente: {
+      id: maintenance.idCliente,
+      tipoDocumento: maintenance.tipoDocumento,
+      numeroDocumento: maintenance.numeroDocumento,
+      nombres: maintenance.nombres,
+      telefono: maintenance.telefono,
+      email: maintenance.email,
+    },
+    moto: {
+      id: maintenance.idMoto,
+      marca: maintenance.marca,
+      modelo: maintenance.modelo,
+      año: maintenance.año,
+      numeroSerie: maintenance.numeroSerie,
+    },
+    mantenimiento: {
+      id: maintenance.idMantenimiento,
+      motoId: maintenance.idMoto,
+      catalogoMantenimientoId: maintenance.catalogoMantenimientoId,
+      fecha: maintenance.fecha.valueOf() || null,
+      descripcion: maintenance.descripcion,
+      estado: maintenance.estado,
+    },
+  };
+};

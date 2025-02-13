@@ -8,7 +8,9 @@ export const getMaintenance = async (maintenance) => {
   // Recuperamos la señal del controlador
   const { signal } = controller;
 
-  const { data } = await axios.get(`${URI}/${maintenance}`, { signal });
+  const { data } = await axios.get(`${URI}/mantenimiento/${maintenance}`, {
+    signal,
+  });
 
   return data;
 };
@@ -58,35 +60,41 @@ export const getAllMaintenances = async () => {
   return data;
 };
 
-export const createMaintenance = async (maintenance) => {
+export const createMaintenance = async ({ maintenance }) => {
   // Creamos el controlador para abortar la petición
   const controller = new AbortController();
   // Recuperamos la señal del controlador
   const { signal } = controller;
 
-  const { data } = await axios.post(URI, maintenance, { signal });
+  const { data } = await axios.post(`${URI}/mantenimiento`, maintenance, {
+    signal,
+  });
 
   return data;
 };
 
-export const updateMaintenance = async (maintenance) => {
+export const updateMaintenance = async ({ maintenance }) => {
   // Creamos el controlador para abortar la petición
   const controller = new AbortController();
   // Recuperamos la señal del controlador
   const { signal } = controller;
 
-  const { data } = await axios.put(URI, maintenance, { signal });
+  const { data } = await axios.put(`${URI}/mantenimiento`, maintenance, {
+    signal,
+  });
 
   return data;
 };
 
-export const deleteMaintenance = async (maintenance) => {
+export const deleteMaintenance = async ({ maintenance }) => {
   // Creamos el controlador para abortar la petición
   const controller = new AbortController();
   // Recuperamos la señal del controlador
   const { signal } = controller;
 
-  const { data } = await axios.delete(`${URI}/${maintenance}`, { signal });
+  const { data } = await axios.delete(`${URI}/mantenimiento/${maintenance}`, {
+    signal,
+  });
 
   return data;
 };

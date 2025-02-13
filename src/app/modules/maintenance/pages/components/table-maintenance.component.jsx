@@ -1,12 +1,15 @@
 /* eslint-disable react/prop-types */
-import { Edit } from '@mui/icons-material';
+import { Delete, Edit } from '@mui/icons-material';
 import { Button } from '@mui/material';
 import { DataGrid, GridToolbar } from '@mui/x-data-grid';
+import { useHandleMaintenance } from '../../hooks/useHandleMaintenance.hook';
 import { DOCUMENT_TYPE } from '../../utils/utility';
 
 const PAGE_SIZE = 10;
 
 export default function TableMaintenances({ maintenances, handleOpen }) {
+  const { removeMaintenance } = useHandleMaintenance();
+
   const columns = [
     {
       field: 'marca',
@@ -48,17 +51,33 @@ export default function TableMaintenances({ maintenances, handleOpen }) {
       flex: 1,
     },
     {
-      field: 'edit',
-      headerName: 'EDITAR',
-      flex: 0.5,
+      field: 'actions',
+      headerName: 'ACCIONES',
+      flex: 0.6,
       sortable: false,
       renderCell: (params) => (
-        <Button
-          color='primary'
-          onClick={() => handleOpen(params.row)}
+        <div
+          style={{
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+            width: '100%',
+            height: '100%',
+          }}
         >
-          <Edit fontSize='small' />
-        </Button>
+          <Button
+            color='primary'
+            onClick={() => handleOpen(params.row)}
+          >
+            <Edit fontSize='small' />
+          </Button>
+          <Button
+            color='primary'
+            onClick={() => removeMaintenance(params.row.idMoto)}
+          >
+            <Delete fontSize='small' />
+          </Button>
+        </div>
       ),
     },
   ];
