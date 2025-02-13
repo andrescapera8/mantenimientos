@@ -29,11 +29,11 @@ export const useHandleMaintenance = () => {
 
       const maintenances_adapter = ADAPTER_MAINTENANCES(mantenimientoDTO);
 
+      SnackBarUtlities.success('Consulta completada.');
       return setMaintenances((prev) => prev.concat(maintenances_adapter));
     } catch (error) {
       SnackBarUtlities.error(error);
     } finally {
-      SnackBarUtlities.success('Consulta completada.');
       setLoading(false);
     }
   }, []);
@@ -45,21 +45,21 @@ export const useHandleMaintenance = () => {
       setLoading(true);
 
       const maintenanceAction =
-        action === 2 ? createMaintenance : updateMaintenance;
+        action === 1 ? createMaintenance : updateMaintenance;
 
-      const { statusResponse } = await maintenanceAction({
-        dataMaintenance,
+      const { status } = await maintenanceAction({
+        maintenance : dataMaintenance,
       });
 
-      if (statusResponse.status !== 200) {
+      if (status !== "200") {
         return SnackBarUtlities.error('Error al crear mantenimiento.');
       }
 
+      SnackBarUtlities.success('registro actualizado.');
       maintenancesAll();
     } catch (error) {
       SnackBarUtlities.error(error);
     } finally {
-      SnackBarUtlities.success('Consulta completada.');
       setLoading(false);
     }
   };
@@ -71,14 +71,14 @@ export const useHandleMaintenance = () => {
       const { data, statusResponse } = await deleteMaintenance({ maintenance });
 
       if (statusResponse.status != 200) {
-        return SnackBarUtlities.error('Error al obtener mantenimientos.');
+        return SnackBarUtlities.error('Error al eliminar mantenimiento.');
       }
 
+      SnackBarUtlities.success('Mantenimiento eliminado');
       return setMaintenances((prev) => prev.concat(data));
     } catch (error) {
       SnackBarUtlities.error(error);
     } finally {
-      SnackBarUtlities.success('Consulta completada.');
       setLoading(false);
     }
   };
