@@ -1,13 +1,13 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import Loading from '../../../shared/components/loading.component';
-import { useHandleMaintenance } from '../hooks/useHandleMaintenance.hook';
+import { useMaintenanceContext } from '../hooks/useHandleMaintenance.hook';
 import ButtonAction from './components/button.component';
 import FormMaintenance from './components/form-maintenance.component';
 import TableMaintenances from './components/table-maintenance.component';
 import './styles/index.css';
 
 export default function MaintenanceCrud() {
-  const { maintenancesAll, maintenances, loading } = useHandleMaintenance();
+  const { maintenancesAll, loading } = useMaintenanceContext();
 
   const [open, setOpen] = useState(false);
   const [maintenance, setMaintenance] = useState({});
@@ -18,19 +18,16 @@ export default function MaintenanceCrud() {
   };
   const handleClose = () => setOpen(false);
 
+  useEffect(() => {
+    maintenancesAll();
+  }, []);
+
   return (
     <section className='container__maintenance'>
       <article className='buttons__space'>
         <ButtonAction
-          handleButton={maintenancesAll}
-          variant='contained'
-          color='primary'
-          label='Obtener mantenimientos'
-          loading={loading}
-        />
-
-        <ButtonAction
           handleButton={handleOpen}
+          variant='contained'
           color='primary'
           label='Crear mantenimiento'
           loading={loading}
@@ -44,10 +41,7 @@ export default function MaintenanceCrud() {
       <br />
 
       <article>
-        <TableMaintenances
-          maintenances={maintenances}
-          handleOpen={handleOpen}
-        />
+        <TableMaintenances handleOpen={handleOpen} />
       </article>
 
       <FormMaintenance

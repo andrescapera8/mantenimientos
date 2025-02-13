@@ -2,13 +2,13 @@
 import { Delete, Edit } from '@mui/icons-material';
 import { Button } from '@mui/material';
 import { DataGrid, GridToolbar } from '@mui/x-data-grid';
-import { useHandleMaintenance } from '../../hooks/useHandleMaintenance.hook';
+import { useMaintenanceContext } from '../../hooks/useHandleMaintenance.hook';
 import { DOCUMENT_TYPE } from '../../utils/utility';
 
 const PAGE_SIZE = 10;
 
-export default function TableMaintenances({ maintenances, handleOpen }) {
-  const { removeMaintenance } = useHandleMaintenance();
+export default function TableMaintenances({ handleOpen }) {
+  const { removeMaintenance, maintenances } = useMaintenanceContext();
 
   const columns = [
     {

@@ -15,7 +15,7 @@ import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import dayjs from 'dayjs';
 import { useEffect, useState } from 'react';
 import { Controller, useForm } from 'react-hook-form';
-import { useHandleMaintenance } from '../../hooks/useHandleMaintenance.hook';
+import { useMaintenanceContext } from '../../hooks/useHandleMaintenance.hook';
 import { DOCUMENT_TYPE, MARKS, STATES, YEARS } from '../../utils/utility';
 
 const style = {
@@ -32,7 +32,7 @@ const style = {
 };
 
 export default function FormMaintenance({ open, handleClose, maintenance }) {
-  const { loading, handleMaintenance } = useHandleMaintenance();
+  const { handleMaintenance, loading } = useMaintenanceContext();
 
   const [action, setAction] = useState(1); // Crear = 1, Editar = 2
 
@@ -47,7 +47,7 @@ export default function FormMaintenance({ open, handleClose, maintenance }) {
   const onSubmit = handleSubmit(async (values) => {
     const mergeValues = action === 1 ? values : { ...maintenance, ...values };
 
-    handleMaintenance({ values: mergeValues, action });
+    await handleMaintenance({ values: mergeValues, action });
     handleClose();
   });
 

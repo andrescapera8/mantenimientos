@@ -3,6 +3,7 @@ import { Toaster } from 'sonner';
 import './App.css';
 import SignIn from './app/modules/auth/components/auth.component';
 import { AuthProvider } from './app/modules/auth/context/auth.context';
+import { MaintenanceProvider } from './app/modules/maintenance/context/maintenance.context';
 import MaintenanceCrud from './app/modules/maintenance/pages/maintenances.component';
 import NavBar from './app/shared/components/navbar.component';
 import ProtectedRoutes from './app/shared/routes/protected.routes';
@@ -23,25 +24,27 @@ function App() {
           </header>
 
           <div style={{ padding: '3em' }}>
-            <Routes>
-              <Route
-                path='/'
-                element={<SignIn />}
-              />
+            <MaintenanceProvider>
+              <Routes>
+                <Route
+                  path='/'
+                  element={<SignIn />}
+                />
 
-              <Route element={<ProtectedRoutes />}>
-                <Route
-                  path='/mantenimiento'
-                  element={<MaintenanceCrud />}
-                />
-              </Route>
-              <Route element={<ProtectedRoutes />}>
-                <Route
-                  path='/catalogo'
-                  element={<h1>Catalogo</h1>}
-                />
-              </Route>
-            </Routes>
+                <Route element={<ProtectedRoutes />}>
+                  <Route
+                    path='/mantenimiento'
+                    element={<MaintenanceCrud />}
+                  />
+                </Route>
+                <Route element={<ProtectedRoutes />}>
+                  <Route
+                    path='/catalogo'
+                    element={<h1>Catalogo</h1>}
+                  />
+                </Route>
+              </Routes>
+            </MaintenanceProvider>
           </div>
         </Router>
       </AuthProvider>
