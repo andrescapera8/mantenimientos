@@ -39,7 +39,7 @@ export const MAINTENACES_ADAPTER = (maintenance) => {
     mantenimiento: {
       id: maintenance.idMantenimiento,
       motoId: maintenance.idMoto,
-      catalogoMantenimientoId: maintenance.catalogoMantenimientoId,
+      catalogoMantenimientoId: maintenance.catalogoMantenimientoId || 1,
       fecha: maintenance.fecha.valueOf() || null,
       descripcion: maintenance.descripcion,
       estado: maintenance.estado,
